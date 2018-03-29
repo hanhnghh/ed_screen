@@ -11,9 +11,8 @@ import java.lang.IllegalArgumentException
 /**
  * Created by Yossi Segev on 11/11/2017.
  */
-class GetMovieDetails(
-        transformer: Transformer<Optional<MovieEntity>>,
-        private val moviesRepository: MoviesRepository) : UseCase<Optional<MovieEntity>>(transformer) {
+class GetMovieDetails(transformer: Transformer<Optional<MovieEntity>>, private val moviesRepository: MoviesRepository)
+                    : UseCase<Optional<MovieEntity>>(transformer) {
 
     companion object {
         private const val PARAM_MOVIE_ENTITY = "param:movieEntity"
