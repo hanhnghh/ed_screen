@@ -9,6 +9,12 @@ import android.os.IBinder
  */
 class EdgeService : Service() {
 
+    companion object {
+        val SERVICE_CONNECTED = "service_connected"
+        val SERVICE_DISCONNECTED = "service_disconnected"
+    }
+
+
 
 
     override fun onBind(p0: Intent?): IBinder {

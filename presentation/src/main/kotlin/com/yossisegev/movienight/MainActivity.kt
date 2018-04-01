@@ -1,20 +1,27 @@
 package com.yossisegev.movienight
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.support.design.widget.BottomNavigationView
 
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.SearchEvent
 import com.yossisegev.movienight.common.App
+import com.yossisegev.movienight.common.EdgeService
+import com.yossisegev.movienight.common.EdgeServiceConnectionUtils
 import com.yossisegev.movienight.favorites.FavoriteMoviesFragment
 import com.yossisegev.movienight.popularmovies.PopularMoviesFragment
 import com.yossisegev.movienight.search.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ServiceConnection {
 
     private lateinit var navigationBar: BottomNavigationView
+    private var token : Any? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +36,26 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         navigationBar = bottomNavigationView
         navigationBar.setOnNavigationItemSelectedListener(this)
+        bindService()
+    }
+
+    fun bindService(){
+        token = EdgeServiceConnectionUtils.bindToService(this, this)
+    }
+
+    fun unbindService(){
+        if(token != null){
+            EdgeServiceConnectionUtils.unbindFromService(token as EdgeServiceConnectionUtils.ServiceToken)
+            token = null
+        }
+    }
+
+    override fun onServiceDisconnected(p0: ComponentName?) {
+        unbindService()
+    }
+
+    override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+        sendBroadcast(Intent(EdgeService.SERVICE_CONNECTED))
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -61,6 +88,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         return true
+    }
+
+    override fun onDestroy() {
+        unbindService()
+        super.onDestroy()
     }
 
 }
