@@ -9,10 +9,8 @@ import android.support.design.widget.BottomNavigationView
 
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.view.SearchEvent
-import com.yossisegev.movienight.common.App
-import com.yossisegev.movienight.common.EdgeService
-import com.yossisegev.movienight.common.EdgeServiceConnectionUtils
+import com.yossisegev.movienight.services.EdgeService
+import com.yossisegev.movienight.services.EdgeServiceConnectionUtils
 import com.yossisegev.movienight.favorites.FavoriteMoviesFragment
 import com.yossisegev.movienight.popularmovies.PopularMoviesFragment
 import com.yossisegev.movienight.search.SearchFragment

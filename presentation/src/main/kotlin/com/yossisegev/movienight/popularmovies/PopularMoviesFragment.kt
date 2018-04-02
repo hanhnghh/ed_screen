@@ -1,23 +1,19 @@
 package com.yossisegev.movienight.popularmovies
 
-import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Pair
+import android.support.v7.widget.SwitchCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.yossisegev.movienight.R
-import com.yossisegev.movienight.common.App
-import com.yossisegev.movienight.common.BaseFragment
-import com.yossisegev.movienight.common.ImageLoader
-import com.yossisegev.movienight.details.MovieDetailsActivity
-import com.yossisegev.movienight.entities.Movie
+import com.yossisegev.movienight.common.*
+import com.yossisegev.movienight.services.EdgeServiceConnectionUtils
 import kotlinx.android.synthetic.main.fragment_popular_movies.*
 import javax.inject.Inject
 
@@ -34,6 +30,7 @@ class PopularMoviesFragment : BaseFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
+    private lateinit var powerSwitch : SwitchCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +72,18 @@ class PopularMoviesFragment : BaseFragment() {
         recyclerView = popular_movies_recyclerview
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
         recyclerView.adapter = popularMoviesAdapter
+
+        powerSwitch = power_service
+        powerSwitch.setOnClickListener({v ->
+            var edgeService = (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService()
+            if(EdgeServiceConnectionUtils.serviceBinder != null && edgeService != null){
+                if(edgeService.isServiceEnable())
+                    edgeService.stopService()
+                else
+                    edgeService.startService()
+            }
+        })
+
     }
 
     override fun onDestroy() {

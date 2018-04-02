@@ -1,9 +1,9 @@
-package com.yossisegev.movienight.common
+package com.yossisegev.movienight.services
 
 import android.app.Activity
-import android.app.Service
 import android.content.*
 import android.os.IBinder
+import com.yossisegev.movienight.common.LocalBinder
 import java.util.*
 
 /**

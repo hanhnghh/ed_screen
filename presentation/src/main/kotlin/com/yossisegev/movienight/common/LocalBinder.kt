@@ -1,6 +1,7 @@
 package com.yossisegev.movienight.common
 
 import android.os.Binder
+import com.yossisegev.movienight.services.EdgeService
 import java.lang.ref.WeakReference
 
 /**
