@@ -4,7 +4,8 @@ import android.content.Context
 import com.squareup.picasso.Picasso
 import com.yossisegev.movienight.common.ImageLoader
 import com.yossisegev.movienight.common.PicassoImageLoader
-import com.yossisegev.movienight.views.EdgeView
+import com.yossisegev.movienight.common.Settings
+import com.yossisegev.movienight.views.EdgeViewController
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -32,7 +33,13 @@ class AppModule constructor(context: Context){
 
     @Singleton
     @Provides
-    fun provideEdgeView(context: Context): EdgeView{
-        return EdgeView(context)
+    fun provideEdgeView(context: Context): EdgeViewController{
+        return EdgeViewController(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSettings(context: Context): Settings{
+        return Settings(context)
     }
 }
