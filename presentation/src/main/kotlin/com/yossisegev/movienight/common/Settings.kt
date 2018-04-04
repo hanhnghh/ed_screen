@@ -3,6 +3,7 @@ package com.yossisegev.movienight.common
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import com.yossisegev.movienight.R
 
 /**
  * Created by hanhanh.nguyen on 4/3/2018.
@@ -16,7 +17,7 @@ class Settings(var context: Context) {
     var prefs : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun getEdgeViewIcon() : Int{
-        return prefs.getInt(EDGE_VIEW_ICON, 0)
+        return prefs.getInt(EDGE_VIEW_ICON, R.drawable.ic_backspace_black_24dp)
     }
 
     fun getEdgeViewSize() : Int{

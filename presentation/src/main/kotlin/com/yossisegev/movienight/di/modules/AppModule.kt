@@ -33,7 +33,7 @@ class AppModule constructor(context: Context){
 
     @Singleton
     @Provides
-    fun provideEdgeView(context: Context): EdgeViewController{
+    fun provideEdgeViewController(context: Context): EdgeViewController{
         return EdgeViewController(context)
     }
 

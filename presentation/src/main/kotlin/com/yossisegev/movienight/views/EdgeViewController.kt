@@ -27,7 +27,12 @@ class EdgeViewController(var context: Context) {
 
     }
 
-    public fun showEdgeView(){
+    fun removeEdgeView(){
+        windowManager.removeView(edgeView as EdgeView)
+        isShow = false
+    }
+
+    fun showEdgeView(){
         setupLayoutParams()
         calculateForDevice()
         showEdge()
@@ -58,6 +63,7 @@ class EdgeViewController(var context: Context) {
     fun showEdge(){
         edgeView ?: createEdgeView()
         windowManager.addView(edgeView as EdgeView, edgeParams)
+        isShow = true
     }
 
     fun createEdgeView(){
@@ -70,7 +76,7 @@ class EdgeViewController(var context: Context) {
         img.setAlpha(alpha)
     }
 
-    fun isShowView() : Boolean{
+    fun isShowEdgeView() : Boolean{
         return isShow
     }
 

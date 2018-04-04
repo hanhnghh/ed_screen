@@ -3,12 +3,14 @@ package com.yossisegev.movienight.popularmovies
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SwitchCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.yossisegev.movienight.R
@@ -26,11 +28,13 @@ class PopularMoviesFragment : BaseFragment() {
     lateinit var factory: PopularMoviesVMFactory
     @Inject
     lateinit var imageLoader: ImageLoader
+    val edgeService = (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService()
     private lateinit var viewModel: PopularMoviesViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
     private lateinit var powerSwitch : SwitchCompat
+    private lateinit var powerCard : CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,17 +77,32 @@ class PopularMoviesFragment : BaseFragment() {
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
         recyclerView.adapter = popularMoviesAdapter
 
+        powerCard = power_service_card
         powerSwitch = power_service
-        powerSwitch.setOnClickListener({v ->
-            var edgeService = (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService()
+        powerCard.setOnClickListener({v ->
+            if(EdgeServiceConnectionUtils.serviceBinder != null && edgeService != null){
+                if(edgeService.isServiceEnable())
+                    edgeService.stopService()
+                else
+                    edgeService.startService()
+                powerSwitch.setChecked(!edgeService.isServiceEnable())
+            }
+        })
+        powerSwitch.setOnCheckedChangeListener { button, isChecked ->
+            checkedChangePowserSwitch(button, isChecked)
+        }
+
+    }
+
+    private fun checkedChangePowserSwitch(button: CompoundButton, isChecked: Boolean){
+        if(button.isPressed){
             if(EdgeServiceConnectionUtils.serviceBinder != null && edgeService != null){
                 if(edgeService.isServiceEnable())
                     edgeService.stopService()
                 else
                     edgeService.startService()
             }
-        })
-
+        }
     }
 
     override fun onDestroy() {
