@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        bindService()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container, PopularMoviesFragment(), "popular")
@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         navigationBar = bottomNavigationView
         navigationBar.setOnNavigationItemSelectedListener(this)
-        bindService()
     }
 
     fun bindService(){

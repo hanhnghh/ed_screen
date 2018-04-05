@@ -3,6 +3,7 @@ package com.yossisegev.movienight.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.yossisegev.movienight.common.LocalBinder
 import com.yossisegev.movienight.views.EdgeView
 import com.yossisegev.movienight.views.EdgeViewController
 import javax.inject.Inject
@@ -14,6 +15,7 @@ class EdgeService : Service() {
 
     @Inject
     lateinit var edgeViewController: EdgeViewController
+    val mBinder = LocalBinder(this)
 
     companion object {
         val SERVICE_CONNECTED = "service_connected"
@@ -21,7 +23,7 @@ class EdgeService : Service() {
     }
 
     override fun onBind(p0: Intent?): IBinder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mBinder
     }
 
     fun isServiceEnable(): Boolean{

@@ -28,7 +28,7 @@ class PopularMoviesFragment : BaseFragment() {
     lateinit var factory: PopularMoviesVMFactory
     @Inject
     lateinit var imageLoader: ImageLoader
-    val edgeService = (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService()
+
     private lateinit var viewModel: PopularMoviesViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -80,8 +80,9 @@ class PopularMoviesFragment : BaseFragment() {
         powerCard = power_service_card
         powerSwitch = power_service
         powerCard.setOnClickListener({v ->
-            if(EdgeServiceConnectionUtils.serviceBinder != null && edgeService != null){
-                if(edgeService.isServiceEnable())
+            if(EdgeServiceConnectionUtils.serviceBinder != null && (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService() != null){
+                val edgeService = (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService()
+                if(edgeService!!.isServiceEnable())
                     edgeService.stopService()
                 else
                     edgeService.startService()
@@ -96,8 +97,9 @@ class PopularMoviesFragment : BaseFragment() {
 
     private fun checkedChangePowserSwitch(button: CompoundButton, isChecked: Boolean){
         if(button.isPressed){
-            if(EdgeServiceConnectionUtils.serviceBinder != null && edgeService != null){
-                if(edgeService.isServiceEnable())
+            if(EdgeServiceConnectionUtils.serviceBinder != null && (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService() != null){
+                val edgeService = (EdgeServiceConnectionUtils.serviceBinder as LocalBinder).getService()
+                if(edgeService!!.isServiceEnable())
                     edgeService.stopService()
                 else
                     edgeService.startService()
